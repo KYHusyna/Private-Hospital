@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="testDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="Appointment_ID" />
+          </Key>
+          <Property Name="Appointment_ID" Type="int" Nullable="false" />
+          <Property Name="Procedure_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Coast" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Direction">
+          <Key>
+            <PropertyRef Name="Direction_ID" />
+          </Key>
+          <Property Name="Direction_ID" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="Doctor_ID" Type="int" Nullable="false" />
+          <Property Name="Appointment_ID" Type="int" Nullable="false" />
+          <Property Name="Pacient_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="Doctor_ID" />
+          </Key>
+          <Property Name="Doctor_ID" Type="int" Nullable="false" />
+          <Property Name="Specialization" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Fullname_doctor" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Med_Card">
+          <Key>
+            <PropertyRef Name="Note_ID" />
+          </Key>
+          <Property Name="Note_ID" Type="int" Nullable="false" />
+          <Property Name="Note_date" Type="date" Nullable="false" />
+          <Property Name="Diagnose" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="50" />
+          <Property Name="Pacient_ID" Type="int" Nullable="false" />
+          <Property Name="Doctor_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pacient">
+          <Key>
+            <PropertyRef Name="Pacient_ID" />
+          </Key>
+          <Property Name="Pacient_ID" Type="int" Nullable="false" />
+          <Property Name="Pasport_number" Type="int" Nullable="false" />
+          <Property Name="Born_date" Type="date" Nullable="false" />
+          <Property Name="Address_living" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Fullname" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Payment_ID" />
+          </Key>
+          <Property Name="Payment_ID" Type="int" Nullable="false" />
+          <Property Name="Sum" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Pacient_ID" Type="int" Nullable="false" />
+          <Property Name="Product_name" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Direction_Appointment">
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="Direction" Type="Self.Direction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointment">
+              <PropertyRef Name="Appointment_ID" />
+            </Principal>
+            <Dependent Role="Direction">
+              <PropertyRef Name="Appointment_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Direction_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Direction" Type="Self.Direction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Doctor_ID" />
+            </Principal>
+            <Dependent Role="Direction">
+              <PropertyRef Name="Doctor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Direction_Pacient">
+          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
+          <End Role="Direction" Type="Self.Direction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="Pacient_ID" />
+            </Principal>
+            <Dependent Role="Direction">
+              <PropertyRef Name="Pacient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Pacient">
+          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="Pacient_ID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="Pacient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Med_Card" Type="Self.Med_Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Doctor_ID" />
+            </Principal>
+            <Dependent Role="Med_Card">
+              <PropertyRef Name="Doctor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_Pacient">
+          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
+          <End Role="Med_Card" Type="Self.Med_Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="Pacient_ID" />
+            </Principal>
+            <Dependent Role="Med_Card">
+              <PropertyRef Name="Pacient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testDbModelStoreContainer">
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Direction" EntityType="Self.Direction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Med_Card" EntityType="Self.Med_Card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pacient" EntityType="Self.Pacient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Direction_Appointment" Association="Self.FK_Direction_Appointment">
+            <End Role="Appointment" EntitySet="Appointment" />
+            <End Role="Direction" EntitySet="Direction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Direction_Doctor" Association="Self.FK_Direction_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Direction" EntitySet="Direction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Direction_Pacient" Association="Self.FK_Direction_Pacient">
+            <End Role="Pacient" EntitySet="Pacient" />
+            <End Role="Direction" EntitySet="Direction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Pacient" Association="Self.FK_Payment_Pacient">
+            <End Role="Pacient" EntitySet="Pacient" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_Doctor" Association="Self.FK_Table_1_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Med_Card" EntitySet="Med_Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_Pacient" Association="Self.FK_Table_1_Pacient">
+            <End Role="Pacient" EntitySet="Pacient" />
+            <End Role="Med_Card" EntitySet="Med_Card" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="Appointment_ID" />
+          </Key>
+          <Property Name="Appointment_ID" Type="Int32" Nullable="false" />
+          <Property Name="Procedure_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Coast" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Direction" Relationship="Self.FK_Direction_Appointment" FromRole="Appointment" ToRole="Direction" />
+        </EntityType>
+        <EntityType Name="Direction">
+          <Key>
+            <PropertyRef Name="Direction_ID" />
+          </Key>
+          <Property Name="Direction_ID" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Doctor_ID" Type="Int32" Nullable="false" />
+          <Property Name="Appointment_ID" Type="Int32" Nullable="false" />
+          <Property Name="Pacient_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_Direction_Appointment" FromRole="Direction" ToRole="Appointment" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_Direction_Doctor" FromRole="Direction" ToRole="Doctor" />
+          <NavigationProperty Name="Pacient" Relationship="Self.FK_Direction_Pacient" FromRole="Direction" ToRole="Pacient" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="Doctor_ID" />
+          </Key>
+          <Property Name="Doctor_ID" Type="Int32" Nullable="false" />
+          <Property Name="Specialization" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fullname_doctor" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Direction" Relationship="Self.FK_Direction_Doctor" FromRole="Doctor" ToRole="Direction" />
+          <NavigationProperty Name="Med_Card" Relationship="Self.FK_Table_1_Doctor" FromRole="Doctor" ToRole="Med_Card" />
+        </EntityType>
+        <EntityType Name="Med_Card">
+          <Key>
+            <PropertyRef Name="Note_ID" />
+          </Key>
+          <Property Name="Note_ID" Type="Int32" Nullable="false" />
+          <Property Name="Note_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Diagnose" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pacient_ID" Type="Int32" Nullable="false" />
+          <Property Name="Doctor_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_Table_1_Doctor" FromRole="Med_Card" ToRole="Doctor" />
+          <NavigationProperty Name="Pacient" Relationship="Self.FK_Table_1_Pacient" FromRole="Med_Card" ToRole="Pacient" />
+        </EntityType>
+        <EntityType Name="Pacient">
+          <Key>
+            <PropertyRef Name="Pacient_ID" />
+          </Key>
+          <Property Name="Pacient_ID" Type="Int32" Nullable="false" />
+          <Property Name="Pasport_number" Type="Int32" Nullable="false" />
+          <Property Name="Born_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Address_living" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fullname" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Direction" Relationship="Self.FK_Direction_Pacient" FromRole="Pacient" ToRole="Direction" />
+          <NavigationProperty Name="Med_Card" Relationship="Self.FK_Table_1_Pacient" FromRole="Pacient" ToRole="Med_Card" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK_Payment_Pacient" FromRole="Pacient" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Payment_ID" />
+          </Key>
+          <Property Name="Payment_ID" Type="Int32" Nullable="false" />
+          <Property Name="Sum" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Pacient_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Pacient" Relationship="Self.FK_Payment_Pacient" FromRole="Payment" ToRole="Pacient" />
+        </EntityType>
+        <Association Name="FK_Direction_Appointment">
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="Direction" Type="Self.Direction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointment">
+              <PropertyRef Name="Appointment_ID" />
+            </Principal>
+            <Dependent Role="Direction">
+              <PropertyRef Name="Appointment_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Direction_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Direction" Type="Self.Direction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Doctor_ID" />
+            </Principal>
+            <Dependent Role="Direction">
+              <PropertyRef Name="Doctor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Direction_Pacient">
+          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
+          <End Role="Direction" Type="Self.Direction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="Pacient_ID" />
+            </Principal>
+            <Dependent Role="Direction">
+              <PropertyRef Name="Pacient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Med_Card" Type="Self.Med_Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Doctor_ID" />
+            </Principal>
+            <Dependent Role="Med_Card">
+              <PropertyRef Name="Doctor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_Pacient">
+          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
+          <End Role="Med_Card" Type="Self.Med_Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="Pacient_ID" />
+            </Principal>
+            <Dependent Role="Med_Card">
+              <PropertyRef Name="Pacient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Pacient">
+          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="Pacient_ID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="Pacient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" />
+          <EntitySet Name="Direction" EntityType="Self.Direction" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" />
+          <EntitySet Name="Med_Card" EntityType="Self.Med_Card" />
+          <EntitySet Name="Pacient" EntityType="Self.Pacient" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" />
+          <AssociationSet Name="FK_Direction_Appointment" Association="Self.FK_Direction_Appointment">
+            <End Role="Appointment" EntitySet="Appointment" />
+            <End Role="Direction" EntitySet="Direction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Direction_Doctor" Association="Self.FK_Direction_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Direction" EntitySet="Direction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Direction_Pacient" Association="Self.FK_Direction_Pacient">
+            <End Role="Pacient" EntitySet="Pacient" />
+            <End Role="Direction" EntitySet="Direction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_Doctor" Association="Self.FK_Table_1_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Med_Card" EntitySet="Med_Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_Pacient" Association="Self.FK_Table_1_Pacient">
+            <End Role="Pacient" EntitySet="Pacient" />
+            <End Role="Med_Card" EntitySet="Med_Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Pacient" Association="Self.FK_Payment_Pacient">
+            <End Role="Pacient" EntitySet="Pacient" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="testDbModelStoreContainer" CdmEntityContainer="testDbContext">
+          <EntitySetMapping Name="Appointment">
+            <EntityTypeMapping TypeName="testDbModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="Appointment_ID" ColumnName="Appointment_ID" />
+                <ScalarProperty Name="Procedure_name" ColumnName="Procedure_name" />
+                <ScalarProperty Name="Coast" ColumnName="Coast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Direction">
+            <EntityTypeMapping TypeName="testDbModel.Direction">
+              <MappingFragment StoreEntitySet="Direction">
+                <ScalarProperty Name="Direction_ID" ColumnName="Direction_ID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="Doctor_ID" ColumnName="Doctor_ID" />
+                <ScalarProperty Name="Appointment_ID" ColumnName="Appointment_ID" />
+                <ScalarProperty Name="Pacient_ID" ColumnName="Pacient_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctor">
+            <EntityTypeMapping TypeName="testDbModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="Doctor_ID" ColumnName="Doctor_ID" />
+                <ScalarProperty Name="Specialization" ColumnName="Specialization" />
+                <ScalarProperty Name="Fullname_doctor" ColumnName="Fullname_doctor" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Med_Card">
+            <EntityTypeMapping TypeName="testDbModel.Med_Card">
+              <MappingFragment StoreEntitySet="Med_Card">
+                <ScalarProperty Name="Note_ID" ColumnName="Note_ID" />
+                <ScalarProperty Name="Note_date" ColumnName="Note_date" />
+                <ScalarProperty Name="Diagnose" ColumnName="Diagnose" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Pacient_ID" ColumnName="Pacient_ID" />
+                <ScalarProperty Name="Doctor_ID" ColumnName="Doctor_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pacient">
+            <EntityTypeMapping TypeName="testDbModel.Pacient">
+              <MappingFragment StoreEntitySet="Pacient">
+                <ScalarProperty Name="Pacient_ID" ColumnName="Pacient_ID" />
+                <ScalarProperty Name="Pasport_number" ColumnName="Pasport_number" />
+                <ScalarProperty Name="Born_date" ColumnName="Born_date" />
+                <ScalarProperty Name="Address_living" ColumnName="Address_living" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payment">
+            <EntityTypeMapping TypeName="testDbModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="Payment_ID" ColumnName="Payment_ID" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Pacient_ID" ColumnName="Pacient_ID" />
+                <ScalarProperty Name="Product_name" ColumnName="Product_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
